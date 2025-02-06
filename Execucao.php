@@ -9,7 +9,7 @@ require_once("Modelos/LivroNacional.php");
 require_once("DAO/LivroDAO.php");
 
 //para testar a conexão quando precisar
-/*require_once("util/conexao.php");
+/*require_once("Util/Conexao.php");
 $con = conexao::getCon();
 print_r($con);*/
 
@@ -19,12 +19,10 @@ do
     print "\n*****************************************\n";
     print "*   MENU DE OPÇÕES - BIBLIOTECÁRIO      *\n";
     print "*****************************************\n";
-    print " 1 - Cadastrar Livro Nacional            \n";
-    print " 2 - Cadastrar Livro Estrangeiro          \n";
-    print " 3 - Cadastrar Livro Didático            \n";
-    print " 4 - Listar Livros                     \n";
-    print " 5 - Buscar Livros                     \n";
-    print " 6 - Excluir Livro                     \n";
+    print " 1 - Cadastrar Livro                    \n";
+    print " 2 - Listar Livros                     \n";
+    print " 3 - Buscar Livros                     \n";
+    print " 4 - Excluir Livro                     \n";
     print " 0 - Sair                               \n";
     print "\n*****************************************\n";
     $opcao = readline("Selecione a opção (pelo índice): ");
@@ -37,25 +35,37 @@ do
             return; 
         break;
 
-        case 1:
-            $livroNac = new LivroNacional(0, readline("Insira o gênero: "), readline("Insira o título: "), readline("Insira o(a) autor(a): "), readline("Insira a editora: "), readline("Insira a regiao do Brasil a qual este livro pertence: "));
-            $livroDao = new LivroDAO();
-            $livroDao->InserirLivro($livroNac);
-        break;
-
-        case 2:
-            $livroEst = new LivroEstrangeiro(0, readline("Insira o gênero: "), readline("Insira o título: "), readline("Insira o(a) autor(a): "), readline("Insira a editora: "), readline("Insira o país de origem: "));
-            $livroDao = new LivroDAO();
-            $livroDao->InserirLivro($livroEst);
-        break;
-
-        case 3:
-            $livroDid = new LivroDidatico(0, readline("Insira o gênero: "), readline("Insira o título: "), readline("Insira o(a) autor(a): "), readline("Insira a editora: "), readline("Insira a matéria: "));
-            $livroDao = new LivroDAO();
-            $livroDao->InserirLivro($livroDid);
+        case 1: 
+            print " 1 - Cadastrar Livro Nacional\n";
+            print " 2 - Cadastrar Livro Estrangeiro\n";
+            print " 3 - Cadastrar Livro Didático\n";
+            
+            $escolhaLivro = readline("Qual tipo de livro você gostaria de cadastar? ");
+            
+            if ($escolhaLivro == 1) 
+            {
+                $livroNac = new LivroNacional(0, readline("Insira o gênero: "), readline("Insira o título: "), readline("Insira o(a) autor(a): "), readline("Insira a editora: "), readline("Insira a regiao do Brasil a qual este livro pertence: "));
+                $livroDao = new LivroDAO();
+                $livroDao->InserirLivro($livroNac);
+            }elseif ($escolhaLivro == 2) 
+            {
+                $livroEst = new LivroEstrangeiro(0, readline("Insira o gênero: "), readline("Insira o título: "), readline("Insira o(a) autor(a): "), readline("Insira a editora: "), readline("Insira o país de origem: "));
+                $livroDao = new LivroDAO();
+                $livroDao->InserirLivro($livroEst);
+            }elseif ($escolhaLivro == 3)
+            {
+                $livroDid = new LivroDidatico(0, readline("Insira o gênero: "), readline("Insira o título: "), readline("Insira o(a) autor(a): "), readline("Insira a editora: "), readline("Insira a matéria: "));
+                $livroDao = new LivroDAO();
+                $livroDao->InserirLivro($livroDid);
+            }else
+            {
+                print "Opção inválida!";
+                break;
+            }
+            
         break;
         
-        case 4:
+        case 2:
             $livroDao = new LivroDAO();
             $livros = $livroDao->ListarLivros();
 
@@ -65,7 +75,7 @@ do
             }
         break;
 
-        case 5:
+        case 3:
             $livroDao = new LivroDAO();
 
             print " 1 - Por ID\n";
@@ -105,7 +115,7 @@ do
 
         break;
 
-        case 6:
+        case 4:
             $livroDao = new LivroDAO();
             $livros = $livroDao->ListarLivros();
 
